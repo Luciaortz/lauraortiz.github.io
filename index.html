@@ -3,65 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>Gráfica Festivos Colombia</title>
-
-    <!-- Plotly -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
     <style>
         body {
             margin: 0;
-            font-family: 'times New Roman', Times, serif;
-            background: linear-gradient(135deg, #122783, #1c3faa);
+            font-family: 'Times New Roman', Times, serif;
+            background: linear-gradient(135deg, #f9c6d0, #edccd3);
             color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
-
         .container {
             background: white;
             padding: 30px;
             border-radius: 15px;
             width: 700px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             text-align: center;
         }
-
         h1 {
             margin-bottom: 10px;
-            color: #122783;
+            color: #c2185b;
+            font-family: 'Times New Roman', Times, serif;
         }
-
         p {
-            color: #666;
+            color: #888;
             margin-bottom: 20px;
+            font-family: 'Times New Roman', Times, serif;
         }
-
         #grafica {
             width: 100%;
             height: 400px;
         }
-
         .footer {
             margin-top: 15px;
             font-size: 12px;
-            color: #aaa;
+            color: #bbb;
+            font-family: 'Times New Roman', Times, serif;
         }
     </style>
 </head>
-
 <body>
-
 <div class="container">
-    <h1>Festivos de Colombia </h1>
+    <h1>Dias festivos de Colombia</h1>
     <p>Cantidad de festivos por mes (2025)</p>
-
     <div id="grafica"></div>
-
-    <div class="footer">Proyecto API - Visualización con Plotly</div>
+    <div class="footer">Proyecto API - Laura Lucia Ortiz De La rosa</div>
 </div>
-
 <script>
     const festivos = [
         { "date": "2025-01-01T00:00:00", "name": "Año Nuevo" },
@@ -85,7 +75,6 @@
     ];
 
     const meses = Array(12).fill(0);
-
     festivos.forEach(f => {
         const mes = new Date(f.date).getMonth();
         meses[mes]++;
@@ -96,20 +85,54 @@
         "Jul","Ago","Sep","Oct","Nov","Dic"
     ];
 
+    const colores = [
+        "#f48fb1","#f06292","#e91e63","#f48fb1",
+        "#ce93d8","#ba68c8","#ab47bc","#9c27b0",
+        "#f06292","#e57373","#ef9a9a","#f48fb1"
+    ];
+
     const trace = {
         x: nombresMeses,
         y: meses,
-        type: 'bar'
+        type: 'bar',
+        marker: { color: colores },
+        text: meses.map(v => v > 0 ? v : ''),
+        textposition: 'outside',
+        textfont: { family: 'Times New Roman', size: 13, color: '#555' },
+        hovertemplate: '<b>%{x}</b><br>Festivos: %{y}<extra></extra>'
     };
 
     const layout = {
-        title: "Festivos por mes",
+        title: {
+            text: "Festivos por mes",
+            font: { family: 'Times New Roman', size: 16, color: '#c2185b' }
+        },
         paper_bgcolor: "transparent",
-        plot_bgcolor: "transparent"
+        plot_bgcolor: "transparent",
+        font: { family: 'Times New Roman' },
+        xaxis: {
+            tickfont: { family: 'Times New Roman', size: 13, color: '#555' },
+            gridcolor: 'transparent',
+            zeroline: false,
+            showline: false
+        },
+        yaxis: {
+            tickfont: { family: 'Times New Roman', size: 12, color: '#bbb' },
+            gridcolor: '#f5e6ea',
+            zeroline: false,
+            showline: false,
+            dtick: 1
+        },
+        margin: { t: 40, b: 30, l: 30, r: 10 },
+        bargap: 0.3,
+        hoverlabel: {
+            bgcolor: '#c2185b',
+            bordercolor: '#c2185b',
+            font: { family: 'Times New Roman', color: '#fff', size: 13 }
+        }
     };
 
-    Plotly.newPlot("grafica", [trace], layout);
+    Plotly.newPlot("grafica", [trace], layout, { responsive: true, displayModeBar: false });
 </script>
-
 </body>
 </html>
